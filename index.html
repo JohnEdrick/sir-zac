@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Full Height Autoplay Video</title>
+    <style>
+html,
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background: black;
+}
+
+video {
+  width: auto;
+  height: 100%;
+  background: black;
+
+  object-fit: contain;
+}
+</style>
+</head>
+
+<body>
+    <video id="fullscreenVideo" autoplay muted playsinline preload="auto">
+			<source src="video.mp4" type="video/mp4" />
+			Your browser does not support HTML5 video.
+		</video>
+
+    <script>
+        const video = document.getElementById('fullscreenVideo')
+
+        // Attempt to go fullscreen after the video starts playing
+        document.addEventListener('DOMContentLoaded', () => {
+            const playPromise = video.play()
+            if (playPromise !== undefined) {
+                playPromise
+                    .then(() => {
+                        if (video.requestFullscreen) {
+                            video.requestFullscreen()
+                        } else if (video.webkitRequestFullscreen) {
+                            video.webkitRequestFullscreen()
+                        } else if (video.msRequestFullscreen) {
+                            video.msRequestFullscreen()
+                        }
+                    })
+                    .catch((error) => {
+                        console.warn(
+                            'Autoplay was blocked or fullscreen denied:',
+                            error
+                        )
+                    })
+            }
+        })
+    </script>
+</body>
+
+</html>
