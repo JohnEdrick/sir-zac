@@ -1,64 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <title>Full Height Autoplay Video</title>
-    <style>
-html,
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  background: black;
-}
+  <meta charset="UTF-8">
+  <title>Full Height Autoplay Loop Video</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: black;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-video {
-  width: auto;
-  height: 100%;
-  background: black;
-
-  object-fit: contain;
-}
-</style>
+    video {
+      height: 100%;
+      width: auto;
+      object-fit: contain;
+      background: black;
+    }
+  </style>
 </head>
-
 <body>
-    <video id="fullscreenVideo" autoplay muted playsinline preload="auto">
-			<source src="video.mp4" type="video/mp4" />
-			Your browser does not support HTML5 video.
-		</video>
 
-    <script>
-        const video = document.getElementById('fullscreenVideo')
+  <video id="fullscreenVideo" autoplay muted loop playsinline preload="auto">
+    <source src="your-video.mp4" type="video/mp4">
+    Your browser does not support HTML5 video.
+  </video>
 
-        // Attempt to go fullscreen after the video starts playing
-        document.addEventListener('DOMContentLoaded', () => {
-            const playPromise = video.play()
-            if (playPromise !== undefined) {
-                playPromise
-                    .then(() => {
-                        if (video.requestFullscreen) {
-                            video.requestFullscreen()
-                        } else if (video.webkitRequestFullscreen) {
-                            video.webkitRequestFullscreen()
-                        } else if (video.msRequestFullscreen) {
-                            video.msRequestFullscreen()
-                        }
-                    })
-                    .catch((error) => {
-                        console.warn(
-                            'Autoplay was blocked or fullscreen denied:',
-                            error
-                        )
-                    })
-            }
-        })
-    </script>
+  <script>
+    const video = document.getElementById('fullscreenVideo');
+
+    // Try to play and request fullscreen on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          if (video.requestFullscreen) {
+            video.requestFullscreen();
+          } else if (video.webkitRequestFullscreen) {
+            video.webkitRequestFullscreen();
+          } else if (video.msRequestFullscreen) {
+            video.msRequestFullscreen();
+          }
+        }).catch(error => {
+          console.warn("Autoplay or fullscreen may have been blocked:", error);
+        });
+      }
+    });
+  </script>
+
 </body>
-
 </html>
